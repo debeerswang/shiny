@@ -338,7 +338,7 @@ printStackTrace <- function(cond,
       message("  [No stack trace available]")
     } else {
       width <- floor(log10(max(st$num))) + 1
-      message(paste(collapse = "\n", paste0(
+      formatted <- paste0(
         "  ",
         formatC(st$num, width = width),
         ": ",
@@ -349,8 +349,11 @@ printStackTrace <- function(cond,
             crayon::blue$bold(name)
           else
             crayon::white(name)
-        })
-      )))
+        }),
+        "\n"
+      )
+      for (line in formatted)
+        cat(file = stderr(), line)
     }
 
     st
